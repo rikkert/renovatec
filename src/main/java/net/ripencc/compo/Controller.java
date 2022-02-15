@@ -26,7 +26,7 @@ public class Controller {
 
     @GetMapping("/greeting")
     public Hello greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-        logger.info("greeting");
+        logger.info("greeting from renovate");
 
         return Hello.builder()
                 .id(counter.incrementAndGet())
