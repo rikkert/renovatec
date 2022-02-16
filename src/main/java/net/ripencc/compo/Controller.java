@@ -1,15 +1,16 @@
 package net.ripencc.compo;
 
+import net.ripencc.compo.dto.Battle;
 import net.ripencc.compo.dto.Hello;
+import net.ripencc.compo.dto.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Duration;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -23,6 +24,22 @@ public class Controller {
     private final AtomicLong counter = new AtomicLong();
 
     Logger logger = LoggerFactory.getLogger(Controller.class);
+
+    @GetMapping("/")
+    public Config getConfig() {
+        return Config.builder()
+                .color("#3D9970")
+                .author("Renovate")
+                .head("bendr")
+                .tail("freckled")
+                .version("0.1.43-alpha")
+                .build();
+    }
+
+    @PostMapping("/start")
+    public void start(Battle battle) {
+        logger.info("Starting battle: {}", battle);
+    }
 
     @GetMapping("/greeting")
     public Hello greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
