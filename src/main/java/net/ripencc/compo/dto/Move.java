@@ -1,9 +1,21 @@
 package net.ripencc.compo.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import lombok.Builder;
 import lombok.Data;
+import lombok.Value;
 
-@Data
+@Builder
+@Value
+@JsonSerialize()
 public class Move {
-    private int turn;
-    private Board board;
+    public enum Direction {
+        up, down, left, right
+    }
+
+    @JsonProperty("move")
+    private Direction direction;
+    private String shout;
 }

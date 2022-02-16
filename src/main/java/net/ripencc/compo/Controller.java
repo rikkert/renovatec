@@ -3,10 +3,12 @@ package net.ripencc.compo;
 import net.ripencc.compo.dto.Battle;
 import net.ripencc.compo.dto.Hello;
 import net.ripencc.compo.dto.Config;
+import net.ripencc.compo.dto.Move;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,8 +39,19 @@ public class Controller {
     }
 
     @PostMapping("/start")
-    public void start(Battle battle) {
+    public void start(@RequestBody Battle battle) {
         logger.info("Starting battle: {}", battle);
+    }
+
+    @PostMapping("/move")
+    public Move move(@RequestBody Battle battle) {
+        var result = Move.builder()
+                .direction(Move.Direction.left)
+                .shout("Here goes nothing!!")
+                .build();
+
+        logger.info("Moving to {}", result);
+        return result;
     }
 
     @GetMapping("/greeting")
