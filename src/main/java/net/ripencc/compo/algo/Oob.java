@@ -37,7 +37,7 @@ public class Oob {
                 .collect(Collectors.toSet());
         occupied.addAll(utils.getWall(board.getWidth(), board.getHeight()));
 
-        if (!occupied.contains(new Point(head.x, head.y +1)))
+        if (!occupied.contains(new Point(head.x, head.y + 1)))
             result.direction(up);
         else if (!occupied.contains(new Point(head.x + 1, head.y)))
             result.direction(right);
