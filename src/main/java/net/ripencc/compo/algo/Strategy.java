@@ -21,7 +21,7 @@ public class Strategy {
         ANGRY,
         HUNGRY,
         FULL,
-        NORMAl
+        NORMAL
     }
 
     private LegalMove legalMove;
@@ -42,7 +42,7 @@ public class Strategy {
         State state = getCurrentState(battle);
 
         switch (state) {
-            case NORMAl -> result.direction(
+            case NORMAL -> result.direction(
                     findTail.getNextDirections(battle)
                             .map(Decision::getDirection)
                             .findFirst()
@@ -59,7 +59,7 @@ public class Strategy {
             return State.HUNGRY;
         }
 
-        return State.NORMAl;
+        return State.NORMAL;
     }
 
     private Decision findFood(Battle battle) {

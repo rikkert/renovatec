@@ -7,6 +7,7 @@ import java.awt.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static net.ripencc.compo.dto.Move.Direction.*;
 
@@ -57,5 +58,13 @@ public class Board {
         }
         return result;
     }
+
+    public Set<Point> getSnakePoints() {
+        return snakes.stream()
+            .flatMap(snake -> snake.getBody().stream())
+            .collect(Collectors.toSet());
+    }
+
+
 
 }

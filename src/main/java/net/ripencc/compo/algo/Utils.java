@@ -1,6 +1,5 @@
 package net.ripencc.compo.algo;
 
-import net.ripencc.compo.dto.Board;
 import net.ripencc.compo.dto.Move;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
@@ -12,7 +11,10 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
-import static net.ripencc.compo.dto.Move.Direction.*;
+import static net.ripencc.compo.dto.Move.Direction.down;
+import static net.ripencc.compo.dto.Move.Direction.left;
+import static net.ripencc.compo.dto.Move.Direction.right;
+import static net.ripencc.compo.dto.Move.Direction.up;
 
 @Component
 public class Utils {
@@ -29,12 +31,6 @@ public class Utils {
                 .flatMap(p -> Stream.of(p, new Point(width, p.y)));
 
         return Stream.concat(leftAndRight, topAndBottom).collect(Collectors.toSet());
-    }
-
-    public Set<Point> getSnakes(Board board) {
-        return board.getSnakes().stream()
-                .flatMap(snake -> snake.getBody().stream())
-                .collect(Collectors.toSet());
     }
 
     public Set<Point> getMoves(Point head) {
