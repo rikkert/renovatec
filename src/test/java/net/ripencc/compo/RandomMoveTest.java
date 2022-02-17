@@ -24,20 +24,20 @@ class RandomMoveTest {
     }
 
     @Test
-    void should_avoid_bottom_left() {
+    void can_only_go_up() {
         var other = Snake.builder()
             .head(new Point(1, 1))
-            .body(Arrays.asList(new Point(2, 1)))
+            .body(Arrays.asList(new Point(1, 0)))
             .build();
         var board = Board.builder()
             .width(3).height(3)
             .snakes(Arrays.asList(other))
             .build();
-        var snake = Snake.builder().head(new Point(0, 0)).build();
+        var me = Snake.builder().head(new Point(0, 0)).build();
 
         var battle = Battle.builder()
             .board(board)
-            .you(snake)
+            .you(me)
             .build();
         var result = subject.getNextDirection(battle);
         assertEquals(up, result);
