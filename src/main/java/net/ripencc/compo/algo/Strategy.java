@@ -68,7 +68,7 @@ public class Strategy {
             return State.ANGRY;
         }
 
-        if (battle.getBoard().getLongestSnakeLength(you) >= you.getLength()
+        if (battle.getBoard().getLongestSnakeLength(you) > you.getLength()
             || you.getHealth() < 60)
             return State.HUNGRY;
 
