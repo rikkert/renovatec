@@ -3,13 +3,12 @@ package net.ripencc.compo.dto;
 import lombok.Builder;
 import lombok.Data;
 
-import java.awt.Point;
+import java.awt.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import static net.ripencc.compo.dto.Move.Direction.*;
-import static net.ripencc.compo.dto.Move.Direction.up;
 
 @Builder
 @Data
