@@ -44,7 +44,12 @@ public class LegalMove {
                 .sorted(Comparator.comparingInt(m -> (int) m.getPoint().distance(point)))
                 .filter(Decision::isLegal)
                 // see if we can still move after this move at all
-                .filter(d -> !getLegalPositions(battle, d.getPoint()).isEmpty());
+                .filter(d -> {
+                    Set<Point> positions = getLegalPositions(battle, d.getPoint());
+                    return !positions.isEmpty() ||
+                            battle.getBoard().getOpponentsHeads(you).parallelStream()
+                                    .noneMatch(positions::contains);
+                });
     }
 
     private Set<Point> getLegalPositions(Battle battle, Point head) {

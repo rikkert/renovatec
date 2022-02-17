@@ -79,4 +79,12 @@ public class Board {
     public Point getCenter() {
         return new Point(width / 2, height / 2);
     }
+
+    public Set<Point> getOpponentsHeads(Snake you) {
+        return snakes.stream()
+            .filter(snake -> !snake.getId().equals(you.getId()))
+            .filter(snake -> you.getLength() < snake.getLength())
+            .map(Snake::getHead)
+            .collect(Collectors.toSet());
+    }
 }
