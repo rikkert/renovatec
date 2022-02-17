@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 import java.util.Arrays;
+import java.util.List;
 
 import static net.ripencc.compo.dto.Move.Direction.up;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -27,13 +28,10 @@ class RandomMoveTest {
 
     @Test
     void can_only_go_up() {
-        var other = Snake.builder()
-            .head(new Point(1, 1))
-            .body(Arrays.asList(new Point(1, 0)))
-            .build();
+        Snake other = TestHelper.otherSnake();
         var board = Board.builder()
             .width(3).height(3)
-            .snakes(Arrays.asList(other))
+            .snakes(List.of(other))
             .build();
         var me = Snake.builder().head(new Point(0, 0)).build();
 
@@ -41,8 +39,10 @@ class RandomMoveTest {
             .board(board)
             .you(me)
             .build();
+        battle.toString();
         var result = subject.getNextDirection(battle);
         assertEquals(up, result);
     }
+
 
 }
