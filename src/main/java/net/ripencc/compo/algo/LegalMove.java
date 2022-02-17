@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -62,17 +61,11 @@ public class LegalMove {
     }
 
     private Point moveHead(Point head, Move.Direction direction) {
-        switch (direction) {
-            case up:
-                return new Point(head.x, head.y + 1);
-            case down:
-                return new Point(head.x, head.y - 1);
-            case left:
-                return new Point(head.x - 1, head.y);
-            case right:
-                return new Point(head.x + 1, head.y);
-            default:
-                throw new IllegalArgumentException("Unknown direction: " + direction);
-        }
+        return switch (direction) {
+            case up -> new Point(head.x, head.y + 1);
+            case down -> new Point(head.x, head.y - 1);
+            case left -> new Point(head.x - 1, head.y);
+            case right -> new Point(head.x + 1, head.y);
+        };
     }
 }
