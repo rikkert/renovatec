@@ -16,6 +16,7 @@ public class Strategy {
 
     private final Logger logger = LoggerFactory.getLogger(Strategy.class);
     private final Decision defaultDecision = Decision.builder().direction(left).build();
+
     private enum State {
         ANGRY,
         HUNGRY,
@@ -26,12 +27,14 @@ public class Strategy {
     private LegalMove legalMove;
     private RandomMove randomAlgo;
     private FindFood findFood;
+    private FindTail findTail;
 
     @Autowired
-    public Strategy(LegalMove legalMove, RandomMove randomAlgo, FindFood findFood) {
+    public Strategy(LegalMove legalMove, RandomMove randomAlgo, FindFood findFood, FindTail findTail) {
         this.legalMove = legalMove;
         this.randomAlgo = randomAlgo;
         this.findFood = findFood;
+        this.findTail = findTail;
     }
 
     public Move determineNextMove(Battle battle) {
@@ -39,7 +42,11 @@ public class Strategy {
         State state = getCurrentState(battle);
 
         switch (state) {
-            case NORMAL -> result.direction(randomAlgo.getNextDirection(battle));
+            case NORMAL -> result.direction(
+                    findTail.getNextDirections(battle)
+                            .map(Decision::getDirection)
+                            .findFirst()
+                            .orElse(randomAlgo.getNextDirection(battle)));
             case HUNGRY -> result.direction(findFood(battle).getDirection());
         }
 
