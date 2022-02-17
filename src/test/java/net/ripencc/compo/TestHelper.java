@@ -10,6 +10,7 @@ public class TestHelper {
         return Snake.builder()
             .head(new Point(1, 1))
             .body(List.of(new Point(1, 1), new Point(1, 0)))
+            .length(2)
             .build();
     }
 
@@ -17,6 +18,7 @@ public class TestHelper {
         return Snake.builder()
             .head(new Point(2, 2))
             .body(List.of(new Point(2, 2), new Point(2, 1), new Point(2, 0)))
+            .length(3)
             .build();
     }
 

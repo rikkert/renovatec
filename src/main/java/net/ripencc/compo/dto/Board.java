@@ -72,7 +72,7 @@ public class Board {
 
     public Set<Point> getSnakePoints() {
         return snakes.stream()
-            .flatMap(snake -> snake.getBody().stream())
+            .flatMap(snake -> snake.getBody().stream().limit(snake.getLength() - 1))
             .collect(Collectors.toSet());
     }
 
