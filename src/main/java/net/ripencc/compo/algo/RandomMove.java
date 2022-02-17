@@ -19,10 +19,9 @@ import static net.ripencc.compo.dto.Move.Direction.up;
 @Component
 public class RandomMove {
 
-    private static final Random rand = new Random();
     private static final List<Move.Direction> MOVES = Stream.of(
             up, Move.Direction.down, Move.Direction.left, Move.Direction.right)
-            .collect(Collectors.toList());
+        .collect(Collectors.toList());
 
     private final Utils utils;
 
@@ -33,11 +32,11 @@ public class RandomMove {
 
     public Move.Direction getNextDirection(Battle battle) {
         Collections.shuffle(MOVES);
-        Set<Point> legalMoves = getLegalMoves(battle);
+        Set<Point> legalPositions = getLegalPositions(battle);
         Point head = battle.getYou().getHead();
 
         for (Move.Direction move : MOVES) {
-            if (legalMoves.contains(moveHead(head, move))) {
+            if (legalPositions.contains(moveHead(head, move))) {
                 return move;
             }
         }
@@ -46,15 +45,15 @@ public class RandomMove {
         return up;
     }
 
-    private Set<Point> getLegalMoves(Battle battle) {
+    private Set<Point> getLegalPositions(Battle battle) {
         Board board = battle.getBoard();
         Point head = battle.getYou().getHead();
-        Set<Point> moves = utils.getMoves(head);
+        Set<Point> positions = utils.getMoves(head);
         Set<Point> occupied = utils.getSnakes(board);
         occupied.addAll(utils.getWall(board.getWidth(), board.getHeight()));
 
-        moves.removeAll(occupied);
-        return moves;
+        positions.removeAll(occupied);
+        return positions;
     }
 
     private Point moveHead(Point head, Move.Direction direction) {
