@@ -61,14 +61,15 @@ public class Strategy {
 
     private State getCurrentState(Battle battle) {
         Snake you = battle.getYou();
-        if (battle.getBoard().getLongestSnakeLength(you) > you.getLength()
-            || you.getHealth() < 25)
-            return State.HUNGRY;
 
         if (battle.getBoard().getSnakes().parallelStream()
                 .anyMatch(s -> s.getLength() < you.getLength())) {
             return State.ANGRY;
         }
+
+        if (battle.getBoard().getLongestSnakeLength(you) > you.getLength()
+            || you.getHealth() < 25)
+            return State.HUNGRY;
 
         return State.NORMAL;
     }
