@@ -23,10 +23,6 @@ import static java.time.LocalDateTime.now;
 @RestController
 public class Controller {
 
-    private static final String template = "Hello, %s!";
-    private static final LocalDateTime bootTime = now();
-    private final AtomicLong counter = new AtomicLong();
-
     Logger logger = LoggerFactory.getLogger(Controller.class);
     Oob oob;
 
@@ -57,16 +53,5 @@ public class Controller {
 
         logger.info("Moving to {}", result);
         return result;
-    }
-
-    @GetMapping("/greeting")
-    public Hello greeting(@RequestParam(value = "name", defaultValue = "World") String name) {
-        logger.info("greeting from renovate");
-
-        return Hello.builder()
-                .id(counter.incrementAndGet())
-                .duration(Duration.between(bootTime, now()))
-                .content(String.format(template, name))
-                .build();
     }
 }
