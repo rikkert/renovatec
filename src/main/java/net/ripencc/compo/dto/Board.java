@@ -4,7 +4,12 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.awt.Point;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import static net.ripencc.compo.dto.Move.Direction.*;
+import static net.ripencc.compo.dto.Move.Direction.up;
 
 @Builder
 @Data
@@ -36,4 +41,22 @@ public class Board {
     private List<Point> food;
     private List<Point> hazards;
     private List<Snake> snakes;
+
+    public Set<Move.Direction> valid_moves(Point position) {
+        var result = new HashSet<Move.Direction>();
+        if (position.x > 0) {
+            result.add(left);
+        }
+        if (position.y > 0) {
+            result.add(down);
+        }
+        if (position.x < width - 1) {
+            result.add(right);
+        }
+        if (position.y < height - 1) {
+            result.add(up);
+        }
+        return result;
+    }
+
 }
