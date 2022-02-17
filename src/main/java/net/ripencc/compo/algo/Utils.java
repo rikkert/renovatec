@@ -31,12 +31,6 @@ public class Utils {
         return Stream.concat(leftAndRight, topAndBottom).collect(Collectors.toSet());
     }
 
-    public Set<Point> getSnakes(Board board) {
-        return board.getSnakes().stream()
-                .flatMap(snake -> snake.getBody().stream())
-                .collect(Collectors.toSet());
-    }
-
     public Set<Point> getMoves(Point head) {
         Set<Point> moves = new HashSet<>(4);
         moves.add(new Point(head.x + 1, head.y));

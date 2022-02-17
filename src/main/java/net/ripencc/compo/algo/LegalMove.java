@@ -47,7 +47,7 @@ public class LegalMove {
         Board board = battle.getBoard();
         Point head = battle.getYou().getHead();
         Set<Point> positions = utils.getMoves(head);
-        Set<Point> occupied = utils.getSnakes(board);
+        Set<Point> occupied = board.getSnakePoints();
         occupied.addAll(utils.getWall(board.getWidth(), board.getHeight()));
 
         positions.removeAll(occupied);
