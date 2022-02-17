@@ -16,23 +16,23 @@ import static net.ripencc.compo.dto.Move.Direction.*;
 public class Board {
     /**
      * {
-     *   "height": 11,
-     *   "width": 11,
-     *   "food": [
-     *     {"x": 5, "y": 5},
-     *     {"x": 9, "y": 0},
-     *     {"x": 2, "y": 6}
-     *   ],
-     *   "hazards": [
-     *     {"x": 0, "y": 0},
-     *     {"x": 0, "y": 1},
-     *     {"x": 0, "y": 2}
-     *   ],
-     *   "snakes": [
-     *     {"id": "snake-one", ... },
-     *     {"id": "snake-two", ... },
-     *     {"id": "snake-three", ... }
-     *   ]
+     * "height": 11,
+     * "width": 11,
+     * "food": [
+     * {"x": 5, "y": 5},
+     * {"x": 9, "y": 0},
+     * {"x": 2, "y": 6}
+     * ],
+     * "hazards": [
+     * {"x": 0, "y": 0},
+     * {"x": 0, "y": 1},
+     * {"x": 0, "y": 2}
+     * ],
+     * "snakes": [
+     * {"id": "snake-one", ... },
+     * {"id": "snake-two", ... },
+     * {"id": "snake-three", ... }
+     * ]
      * }
      */
 
@@ -57,6 +57,11 @@ public class Board {
             result.add(up);
         }
         return result;
+    }
+
+
+    public Integer getLongestSnakeLength() {
+        return snakes.parallelStream().map(Snake::getLength).reduce(0, Math::max);
     }
 
     public Set<Point> getSnakePoints() {
