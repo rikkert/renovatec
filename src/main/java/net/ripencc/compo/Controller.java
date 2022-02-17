@@ -43,8 +43,8 @@ public class Controller {
 
     @PostMapping("/move")
     public Move move(@RequestBody Battle battle) {
-        var result = gokcem.move(battle);
-        //var result = strategy.determineNextMove(battle);
+//        var result = gokcem.move(battle);
+        var result = strategy.determineNextMove(battle);
 
         logger.info("Moving to {}", result);
         return result;
