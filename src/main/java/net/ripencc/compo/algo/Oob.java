@@ -30,11 +30,12 @@ public class Oob {
     public Move move(Battle battle) {
         var result = Move.builder();
 
+        Board board = battle.getBoard();
+        Point head = battle.getYou().getHead();
         Set<Point> occupied = battle.getBoard().getSnakes().stream()
                 .flatMap(snake -> snake.getBody().stream())
                 .collect(Collectors.toSet());
-        occupied.addAll(utils.getWall(battle.getBoard()));
-        Point head = battle.getYou().getHead();
+        occupied.addAll(utils.getWall(board.getWidth(), board.getHeight()));
 
         if (!occupied.contains(new Point(head.x, head.y +1)))
             result.direction(up);

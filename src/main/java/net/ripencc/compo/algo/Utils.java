@@ -14,13 +14,13 @@ import java.util.stream.Stream;
 public class Utils {
 
     @Cacheable("walls")
-    public Set<Point> getWall(Board board) {
-        var topAndBottom = IntStream.range(0, board.getWidth())
+    public Set<Point> getWall(int width, int height) {
+        var topAndBottom = IntStream.range(0, width)
                 .mapToObj(x -> new Point(x, -1))
-                .flatMap(p -> Stream.of(p, new Point(p.x, board.getHeight())));
-        var leftAndRight = IntStream.range(0, board.getHeight())
+                .flatMap(p -> Stream.of(p, new Point(p.x, height)));
+        var leftAndRight = IntStream.range(0, height)
                 .mapToObj(y -> new Point(-1, y))
-                .flatMap(p -> Stream.of(p, new Point(board.getWidth(), p.y)));
+                .flatMap(p -> Stream.of(p, new Point(width, p.y)));
 
         return Stream.concat(leftAndRight, topAndBottom).collect(Collectors.toSet());
     }
