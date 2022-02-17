@@ -1,5 +1,6 @@
 package net.ripencc.compo;
 
+import net.ripencc.compo.algo.LegalMove;
 import net.ripencc.compo.algo.RandomMove;
 import net.ripencc.compo.algo.Utils;
 import net.ripencc.compo.dto.Battle;
@@ -20,7 +21,8 @@ class RandomMoveTest {
 
     @BeforeEach
     void setup() {
-        subject = new RandomMove(new Utils());
+        var moves = new LegalMove(new Utils());
+        subject = new RandomMove(moves);
     }
 
     @Test
