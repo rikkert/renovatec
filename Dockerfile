@@ -9,7 +9,7 @@ COPY src src
 RUN ./mvnw install -DskipTests
 RUN mkdir -p target/dependency && (cd target/dependency; jar -xf ../*.jar)
 
-FROM openjdk:17.0-jre-slim-buster
+FROM openjdk:17.0-jdk-slim-buster
 VOLUME /tmp
 ARG DEPENDENCY=/workspace/app/target/dependency
 ARG PORT=8080
