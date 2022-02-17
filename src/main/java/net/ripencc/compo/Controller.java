@@ -1,6 +1,7 @@
 package net.ripencc.compo;
 
 import net.ripencc.compo.algo.Oob;
+import net.ripencc.compo.algo.Strategy;
 import net.ripencc.compo.dto.Battle;
 import net.ripencc.compo.dto.Hello;
 import net.ripencc.compo.dto.Config;
@@ -24,11 +25,11 @@ import static java.time.LocalDateTime.now;
 public class Controller {
 
     Logger logger = LoggerFactory.getLogger(Controller.class);
-    Oob oob;
+    Strategy strategy;
 
     @Autowired
-    public Controller(Oob oob) {
-        this.oob = oob;
+    public Controller(Strategy strategy) {
+        this.strategy = strategy;
     }
 
     @GetMapping("/")
@@ -49,7 +50,7 @@ public class Controller {
 
     @PostMapping("/move")
     public Move move(@RequestBody Battle battle) {
-        var result = oob.move(battle);
+        var result = strategy.determineNextMove(battle);
 
         logger.info("Moving to {}", result);
         return result;
