@@ -14,14 +14,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static net.ripencc.compo.dto.Move.Direction.up;
-
 @Component
 public class LegalMove {
-
-    private static final List<Move.Direction> MOVES = Stream.of(
-                    up, Move.Direction.down, Move.Direction.left, Move.Direction.right)
-            .collect(Collectors.toList());
 
     private final Utils utils;
 
@@ -37,7 +31,7 @@ public class LegalMove {
 
     public Stream<Decision> getDirectionsTowardsPoint(Battle battle, Point point) {
         Set<Point> legalPositions = getLegalPositions(battle);
-        return MOVES.parallelStream().map(move -> {
+        return Utils.MOVES.parallelStream().map(move -> {
                     Point nextPoint = moveHead(battle.getYou().getHead(), move);
                     return Decision.builder()
                             .direction(move)
