@@ -16,14 +16,19 @@ import static net.ripencc.compo.dto.Move.Direction.up;
 public class Strategy {
 
     private Utils utils;
+    private RandomMove randomAlgo;
 
     @Autowired
-    public Strategy(Utils utils) {
+    public Strategy(Utils utils, RandomMove randomAlgo) {
         this.utils = utils;
+        this.randomAlgo = randomAlgo;
     }
 
     public Move determineNextMove(Battle battle) {
         Board board = battle.getBoard();
-        return Move.builder().direction(up).build();
+
+        return Move.builder()
+                .direction(randomAlgo.getNextDirection(battle))
+                .build();
     }
 }
