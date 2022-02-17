@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import static java.time.LocalDateTime.now;
-
 @RestController
 public class Controller {
 
@@ -45,7 +43,8 @@ public class Controller {
 
     @PostMapping("/move")
     public Move move(@RequestBody Battle battle) {
-        var result = gokcem.move(battle);
+        //var result = gokcem.move(battle);
+        var result = strategy.determineNextMove(battle);
 
         logger.info("Moving to {}", result);
         return result;
