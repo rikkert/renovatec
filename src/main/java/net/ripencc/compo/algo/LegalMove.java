@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.awt.*;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,18 +31,23 @@ public class LegalMove {
         this.utils = utils;
     }
 
-    public List<Decision> getNextDirections(Battle battle, Point point) {
-        Set<Point> legalPositions = getLegalPositions(battle);
-        return MOVES.stream().map(move -> {
-            Point nextPoint = moveHead(point, move);
-            return Decision.builder()
-                    .direction(move)
-                    .point(nextPoint)
-                    .legal(legalPositions.contains(nextPoint))
-                    .build();
-        })
-                .filter(Decision::isLegal)
+    public List<Decision> getNextDirections(Battle battle) {
+        return getDirectionsTowardsPoint(battle, battle.getYou().getHead())
                 .collect(Collectors.toList());
+    }
+
+    public Stream<Decision> getDirectionsTowardsPoint(Battle battle, Point point) {
+        Set<Point> legalPositions = getLegalPositions(battle);
+        return MOVES.parallelStream().map(move -> {
+                    Point nextPoint = moveHead(battle.getYou().getHead(), move);
+                    return Decision.builder()
+                            .direction(move)
+                            .point(nextPoint)
+                            .legal(legalPositions.contains(nextPoint))
+                            .build();
+                })
+                .sorted(Comparator.comparingInt(m -> (int) m.getPoint().distance(point)))
+                .filter(Decision::isLegal);
     }
 
     private Set<Point> getLegalPositions(Battle battle) {

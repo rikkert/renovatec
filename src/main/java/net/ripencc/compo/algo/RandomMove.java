@@ -29,7 +29,7 @@ public class RandomMove {
     }
 
     public Move.Direction getNextDirection(Battle battle) {
-        List<Decision> legalMoves = legalMove.getNextDirections(battle, battle.getYou().getHead());
+        List<Decision> legalMoves = legalMove.getNextDirections(battle);
         Collections.shuffle(legalMoves);
 
         if (legalMoves.isEmpty()) {
