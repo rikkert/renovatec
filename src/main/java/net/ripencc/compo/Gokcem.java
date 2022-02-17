@@ -23,7 +23,7 @@ import static net.ripencc.compo.dto.Move.Direction.*;
 public class Gokcem {
 
 
-    private static int maxDepth = 3;
+    private static int maxDepth = 2;
 
     @Autowired
     public Gokcem() {
