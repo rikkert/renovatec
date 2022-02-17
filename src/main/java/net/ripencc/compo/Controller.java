@@ -19,10 +19,12 @@ public class Controller {
 
     Logger logger = LoggerFactory.getLogger(Controller.class);
     Strategy strategy;
+    Gokcem gokcem;
 
     @Autowired
-    public Controller(Strategy strategy) {
+    public Controller(Strategy strategy,Gokcem gokcem) {
         this.strategy = strategy;
+        this.gokcem = gokcem;
     }
 
     @GetMapping("/")
@@ -43,7 +45,7 @@ public class Controller {
 
     @PostMapping("/move")
     public Move move(@RequestBody Battle battle) {
-        var result = strategy.determineNextMove(battle);
+        var result = gokcem.move(battle);
 
         logger.info("Moving to {}", result);
         return result;
