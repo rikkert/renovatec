@@ -28,13 +28,15 @@ public class Strategy {
     private RandomMove randomAlgo;
     private FindFood findFood;
     private FindTail findTail;
+    private Attack attack;
 
     @Autowired
-    public Strategy(LegalMove legalMove, RandomMove randomAlgo, FindFood findFood, FindTail findTail) {
+    public Strategy(LegalMove legalMove, RandomMove randomAlgo, FindFood findFood, FindTail findTail, Attack attack) {
         this.legalMove = legalMove;
         this.randomAlgo = randomAlgo;
         this.findFood = findFood;
         this.findTail = findTail;
+        this.attack = attack;
     }
 
     public Move determineNextMove(Battle battle) {
@@ -42,6 +44,10 @@ public class Strategy {
         State state = getCurrentState(battle);
 
         switch (state) {
+            case ANGRY -> result.direction(
+                    attack.findClosest(battle).findFirst()
+                            .map(Decision::getDirection)
+                            .orElse(randomAlgo.getNextDirection(battle)));
             case NORMAL -> result.direction(
                     findTail.getNextDirections(battle)
                             .map(Decision::getDirection)
@@ -58,6 +64,11 @@ public class Strategy {
         if (battle.getBoard().getLongestSnakeLength(you) > you.getLength()
             || you.getHealth() < 25)
             return State.HUNGRY;
+
+        if (battle.getBoard().getSnakes().parallelStream()
+                .anyMatch(s -> s.getLength() < you.getLength())) {
+            return State.ANGRY;
+        }
 
         return State.NORMAL;
     }
