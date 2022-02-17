@@ -61,7 +61,7 @@ public class Board {
 
 
     public Integer getLongestSnakeLength() {
-        return snakes.parallelStream().map(Snake::getLength).reduce(0, Math::max);
+        return snakes.parallelStream().map(snake -> snake.getBody().size()).reduce(0, Math::max);
     }
 
     public Set<Point> getSnakePoints() {

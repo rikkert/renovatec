@@ -39,6 +39,7 @@ class BattleTest {
     @Test
     void should_render_snakes() {
         var other = TestHelper.otherSnake();
+        var tall = TestHelper.tallSnake();
 
         var board = Board.builder()
             .width(3).height(3)
@@ -54,6 +55,24 @@ class BattleTest {
             ·S·
             ·S·
             """, battle.toString());
+    }
+
+    @Test
+    void should_find_tallest_snake() {
+        var other = TestHelper.otherSnake();
+        var tall = TestHelper.tallSnake();
+
+        var board = Board.builder()
+            .width(3).height(3)
+            .snakes(List.of(other, tall))
+            .build();
+
+        var battle = Battle.builder()
+            .board(board)
+            .build();
+        var longest = battle.getBoard().getLongestSnakeLength();
+
+        assertEquals(3, longest);
     }
 
 
