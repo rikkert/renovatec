@@ -65,6 +65,4 @@ public class Board {
             .collect(Collectors.toSet());
     }
 
-
-
 }
