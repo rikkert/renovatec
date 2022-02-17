@@ -1,22 +1,13 @@
 package net.ripencc.compo.algo;
 
-import net.ripencc.compo.Controller;
 import net.ripencc.compo.dto.Battle;
-import net.ripencc.compo.dto.Board;
 import net.ripencc.compo.dto.Decision;
 import net.ripencc.compo.dto.Move;
 import net.ripencc.compo.dto.Snake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-
-import java.awt.*;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
 
 import static net.ripencc.compo.dto.Move.Direction.left;
 

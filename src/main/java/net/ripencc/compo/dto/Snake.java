@@ -1,10 +1,12 @@
 package net.ripencc.compo.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.awt.*;
 import java.util.List;
 
+@Builder
 @Data
 public class Snake {
     /**

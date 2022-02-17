@@ -8,21 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static net.ripencc.compo.dto.Move.Direction.up;
-
 @Component
 public class LegalMove {
-
-    private static final List<Move.Direction> MOVES = Stream.of(
-                    up, Move.Direction.down, Move.Direction.left, Move.Direction.right)
-            .collect(Collectors.toList());
 
     private final Utils utils;
 
@@ -38,7 +31,7 @@ public class LegalMove {
 
     public Stream<Decision> getDirectionsTowardsPoint(Battle battle, Point point) {
         Set<Point> legalPositions = getLegalPositions(battle);
-        return MOVES.parallelStream().map(move -> {
+        return Utils.MOVES.parallelStream().map(move -> {
                     Point nextPoint = moveHead(battle.getYou().getHead(), move);
                     return Decision.builder()
                             .direction(move)
@@ -62,17 +55,11 @@ public class LegalMove {
     }
 
     private Point moveHead(Point head, Move.Direction direction) {
-        switch (direction) {
-            case up:
-                return new Point(head.x, head.y + 1);
-            case down:
-                return new Point(head.x, head.y - 1);
-            case left:
-                return new Point(head.x - 1, head.y);
-            case right:
-                return new Point(head.x + 1, head.y);
-            default:
-                throw new IllegalArgumentException("Unknown direction: " + direction);
-        }
+        return switch (direction) {
+            case up -> new Point(head.x, head.y + 1);
+            case down -> new Point(head.x, head.y - 1);
+            case left -> new Point(head.x - 1, head.y);
+            case right -> new Point(head.x + 1, head.y);
+        };
     }
 }

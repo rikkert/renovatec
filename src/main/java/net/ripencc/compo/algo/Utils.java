@@ -1,6 +1,7 @@
 package net.ripencc.compo.algo;
 
 import net.ripencc.compo.dto.Board;
+import net.ripencc.compo.dto.Move;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
@@ -11,8 +12,12 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
+import static net.ripencc.compo.dto.Move.Direction.*;
+
 @Component
 public class Utils {
+
+    public static final Set<Move.Direction> MOVES = Set.of(up, down, left, right);
 
     @Cacheable("walls")
     public Set<Point> getWall(int width, int height) {
@@ -41,4 +46,6 @@ public class Utils {
 
         return moves;
     }
+
+
 }
