@@ -69,10 +69,11 @@ public class Strategy {
     }
 
     private Decision findFood(Battle battle) {
+        Decision.DecisionBuilder noFood = Decision.builder();
         return findFood.findClosest(battle)
                 .flatMap(p -> legalMove.getDirectionsTowardsPoint(battle, p))
                 .filter(Decision::isLegal)
                 .findFirst()
-                .orElse(defaultDecision);
+                .orElse(noFood.direction(randomAlgo.getNextDirection(battle)).build());
     }
 }
