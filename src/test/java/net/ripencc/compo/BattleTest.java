@@ -75,5 +75,24 @@ class BattleTest {
         assertEquals(3, longest);
     }
 
+    @Test
+    void should_exclude_us() {
+        var other = TestHelper.otherSnake();
+        var us = TestHelper.tallSnake();
+
+        var board = Board.builder()
+            .width(3).height(3)
+            .snakes(List.of(other, us))
+            .build();
+
+        var battle = Battle.builder()
+            .board(board)
+            .you(us)
+            .build();
+        var longest = battle.getBoard().getLongestSnakeLength(us);
+
+        assertEquals(2, longest);
+    }
+
 
 }

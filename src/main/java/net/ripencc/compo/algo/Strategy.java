@@ -55,7 +55,8 @@ public class Strategy {
 
     private State getCurrentState(Battle battle) {
         Snake you = battle.getYou();
-        if (battle.getBoard().getLongestSnakeLength() > you.getLength() || you.getHealth() < 25)
+        if (battle.getBoard().getLongestSnakeLength(you) > you.getLength()
+            || you.getHealth() < 25)
             return State.HUNGRY;
 
         return State.NORMAL;
