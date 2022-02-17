@@ -42,6 +42,4 @@ public class Utils {
 
         return moves;
     }
-
-
 }

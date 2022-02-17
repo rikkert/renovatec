@@ -40,4 +40,13 @@ public class Snake {
     private int length;
     private String shout;
     private String squad;
+
+    public Point moveHead(Move.Direction direction) {
+        return switch (direction) {
+            case up -> new Point(head.x, head.y + 1);
+            case down -> new Point(head.x, head.y - 1);
+            case left -> new Point(head.x - 1, head.y);
+            case right -> new Point(head.x + 1, head.y);
+        };
+    }
 }

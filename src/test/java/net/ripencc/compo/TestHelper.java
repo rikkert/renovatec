@@ -22,4 +22,16 @@ public class TestHelper {
             .build();
     }
 
+    public static Snake strongSnake() {
+        return Snake.builder()
+                .head(new Point(4, 4))
+                .body(List.of(
+                        new Point(4, 4),
+                        new Point(4, 3),
+                        new Point(4, 2),
+                        new Point(4, 1),
+                        new Point(4, 0)))
+                .length(5)
+                .build();
+    }
 }

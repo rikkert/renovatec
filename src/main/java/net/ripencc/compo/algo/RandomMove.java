@@ -2,7 +2,6 @@ package net.ripencc.compo.algo;
 
 import net.ripencc.compo.dto.Battle;
 import net.ripencc.compo.dto.Decision;
-import net.ripencc.compo.dto.Move;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,15 +20,19 @@ public class RandomMove {
         this.legalMove = legalMove;
     }
 
-    public Move.Direction getNextDirection(Battle battle) {
+    public Decision getNextDirection(Battle battle) {
         List<Decision> legalMoves = legalMove.getNextDirections(battle);
         Collections.shuffle(legalMoves);
 
         if (legalMoves.isEmpty()) {
             // nowhere to go
-            return left;
+            return Decision.builder()
+                    .direction(left)
+                    .legal(true)
+                    .point(battle.getYou().moveHead(left))
+                    .build();
         } else {
-            return legalMoves.get(0).getDirection();
+            return legalMoves.get(0);
         }
     }
 }

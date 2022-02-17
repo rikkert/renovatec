@@ -76,4 +76,7 @@ public class Board {
             .collect(Collectors.toSet());
     }
 
+    public Point getCenter() {
+        return new Point(width / 2, height / 2);
+    }
 }

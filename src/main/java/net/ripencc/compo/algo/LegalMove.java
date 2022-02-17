@@ -3,7 +3,7 @@ package net.ripencc.compo.algo;
 import net.ripencc.compo.dto.Battle;
 import net.ripencc.compo.dto.Board;
 import net.ripencc.compo.dto.Decision;
-import net.ripencc.compo.dto.Move;
+import net.ripencc.compo.dto.Snake;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,14 +25,16 @@ public class LegalMove {
     }
 
     public List<Decision> getNextDirections(Battle battle) {
-        return getDirectionsTowardsPoint(battle, battle.getYou().getHead())
+        return getDirectionsTowardsPoint(battle, battle.getBoard().getCenter())
                 .collect(Collectors.toList());
     }
 
     public Stream<Decision> getDirectionsTowardsPoint(Battle battle, Point point) {
-        Set<Point> legalPositions = getLegalPositions(battle);
+        Snake you = battle.getYou();
+        Set<Point> legalPositions = getLegalPositions(battle, you.getHead());
+
         return Utils.MOVES.parallelStream().map(move -> {
-                    Point nextPoint = moveHead(battle.getYou().getHead(), move);
+                    Point nextPoint = battle.getYou().moveHead(move);
                     return Decision.builder()
                             .direction(move)
                             .point(nextPoint)
@@ -40,26 +42,18 @@ public class LegalMove {
                             .build();
                 })
                 .sorted(Comparator.comparingInt(m -> (int) m.getPoint().distance(point)))
-                .filter(Decision::isLegal);
+                .filter(Decision::isLegal)
+                // see if we can still move after this move at all
+                .filter(d -> !getLegalPositions(battle, d.getPoint()).isEmpty());
     }
 
-    private Set<Point> getLegalPositions(Battle battle) {
+    private Set<Point> getLegalPositions(Battle battle, Point head) {
         Board board = battle.getBoard();
-        Point head = battle.getYou().getHead();
         Set<Point> positions = utils.getMoves(head);
         Set<Point> occupied = board.getSnakePoints();
         occupied.addAll(utils.getWall(board.getWidth(), board.getHeight()));
 
         positions.removeAll(occupied);
         return positions;
-    }
-
-    private Point moveHead(Point head, Move.Direction direction) {
-        return switch (direction) {
-            case up -> new Point(head.x, head.y + 1);
-            case down -> new Point(head.x, head.y - 1);
-            case left -> new Point(head.x - 1, head.y);
-            case right -> new Point(head.x + 1, head.y);
-        };
     }
 }

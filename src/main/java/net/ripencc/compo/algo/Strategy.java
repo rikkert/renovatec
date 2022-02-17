@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 import static net.ripencc.compo.dto.Move.Direction.left;
 
 @Service
@@ -20,7 +22,7 @@ public class Strategy {
     private enum State {
         ANGRY,
         HUNGRY,
-        FULL,
+        SCARED,
         NORMAL
     }
 
@@ -43,20 +45,19 @@ public class Strategy {
         Move.MoveBuilder result = Move.builder();
         State state = getCurrentState(battle);
 
-        switch (state) {
-            case ANGRY -> result.direction(
-                    attack.findClosest(battle).findFirst()
-                            .map(Decision::getDirection)
-                            .orElse(randomAlgo.getNextDirection(battle)));
-            case NORMAL -> result.direction(
-                    findTail.getNextDirections(battle)
-                            .map(Decision::getDirection)
-                            .findFirst()
-                            .orElse(randomAlgo.getNextDirection(battle)));
-            case HUNGRY -> result.direction(findFood(battle).getDirection());
-        }
+        Optional<Decision> decision = switch (state) {
+            case ANGRY -> attack.findClosest(battle).findFirst();
+            case SCARED -> Optional.empty();
+            case NORMAL -> findTail.getNextDirections(battle).findFirst();
+            case HUNGRY -> findFood(battle);
+        };
+        Move.Direction direction = decision
+                .orElseGet(() -> randomAlgo.getNextDirection(battle))
+                .getDirection();
 
-        return result.build();
+        return result
+                .direction(direction)
+                .build();
     }
 
     private State getCurrentState(Battle battle) {
@@ -68,18 +69,16 @@ public class Strategy {
         }
 
         if (battle.getBoard().getLongestSnakeLength(you) >= you.getLength()
-            || you.getHealth() < 25)
+            || you.getHealth() < 60)
             return State.HUNGRY;
 
         return State.NORMAL;
     }
 
-    private Decision findFood(Battle battle) {
-        Decision.DecisionBuilder noFood = Decision.builder();
+    private Optional<Decision> findFood(Battle battle) {
         return findFood.findClosest(battle)
                 .flatMap(p -> legalMove.getDirectionsTowardsPoint(battle, p))
                 .filter(Decision::isLegal)
-                .findFirst()
-                .orElse(noFood.direction(randomAlgo.getNextDirection(battle)).build());
+                .findFirst();
     }
 }
